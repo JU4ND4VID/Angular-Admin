@@ -1,0 +1,87 @@
+/* Fondo suave y padding */
+:host {
+  display: block;
+  background: #eef2f7;
+  padding: 40px 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Título destacado */
+h1 {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2.2rem;
+  color: #1976d2;
+  margin-bottom: 16px;
+  position: relative;
+}
+h1::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: #1976d2;
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+/* Botón Nuevo Cliente */
+button.mat-stroked-button {
+  display: block;
+  margin: 0 auto 16px;
+  border-color: #1976d2;
+  color: #1976d2;
+  font-weight: 600;
+  transition: background 0.15s, color 0.15s;
+}
+button.mat-stroked-button:hover {
+  background: #1976d2;
+  color: #fff;
+}
+
+/* Tarjeta de tabla */
+table {
+  width: 100%;
+  max-width: 1000px;
+  margin: 24px auto;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+/* Estilo de encabezados */
+th.mat-header-cell {
+  background-color: #1976d2;
+  color: white;
+  font-weight: 600;
+  padding: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Filas alternas y hover */
+tr.mat-row:nth-child(even) td.mat-cell {
+  background: #f9f9f9;
+}
+tr.mat-row:hover td.mat-cell {
+  background: #e3f2fd;
+}
+
+/* Celdas */
+td.mat-cell {
+  padding: 16px;
+  vertical-align: middle;
+  color: #333;
+}
+
+/* Botones de acción */
+button.mat-button {
+  margin-right: 8px;
+  color: #1976d2;
+  transition: color 0.15s;
+}
+button.mat-button:hover {
+  color: #0d47a1;
+}

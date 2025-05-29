@@ -1,0 +1,55 @@
+<h1>Listado de Clientes</h1>
+
+<button mat-stroked-button color="primary" (click)="add()">Nuevo Cliente</button>
+
+<table mat-table [dataSource]="clientes" class="mat-elevation-z8" style="width:100%; margin-top:16px;">
+
+  <!-- ID -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let c"> {{ c.id }} </td>
+  </ng-container>
+
+  <!-- Nombre -->
+  <ng-container matColumnDef="nombreCliente">
+    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+    <td mat-cell *matCellDef="let c"> {{ c.nombreCliente }} </td>
+  </ng-container>
+
+  <!-- Correo -->
+  <ng-container matColumnDef="correoCliente">
+    <th mat-header-cell *matHeaderCellDef> Correo </th>
+    <td mat-cell *matCellDef="let c"> {{ c.correoCliente }} </td>
+  </ng-container>
+
+  <!-- Dirección -->
+  <ng-container matColumnDef="direccionCliente">
+    <th mat-header-cell *matHeaderCellDef> Dirección </th>
+    <td mat-cell *matCellDef="let c"> {{ c.direccionCliente }} </td>
+  </ng-container>
+
+  <!-- Teléfono -->
+  <ng-container matColumnDef="telefono">
+    <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+    <td mat-cell *matCellDef="let c"> {{ c.telefono }} </td>
+  </ng-container>
+
+  <!-- Estado -->
+  <ng-container matColumnDef="estado">
+    <th mat-header-cell *matHeaderCellDef> Estado </th>
+    <td mat-cell *matCellDef="let c"> {{ c.estado === 1 ? 'Activo' : 'Inactivo' }} </td>
+  </ng-container>
+
+  <!-- Acciones -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Acciones </th>
+    <td mat-cell *matCellDef="let c">
+      <button mat-button color="primary" (click)="edit(c.id.toString())">Editar</button>
+      <button mat-button color="warn" (click)="remove(c.id.toString())">Eliminar</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row        *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+

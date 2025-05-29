@@ -1,0 +1,87 @@
+/* Fondo general y centrado */
+:host {
+  display: block;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #ece9e6 0%, #ffffff 100%);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Contenedor tipo tarjeta */
+form {
+  background: #fff;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+/* Título decorativo */
+h2 {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2rem;
+  margin-bottom: 24px;
+  color: #1976d2;
+  position: relative;
+}
+h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #1976d2;
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+/* Espaciado y anchura full */
+.full-width {
+  width: 100%;
+}
+mat-form-field {
+  margin-bottom: 20px;
+}
+
+/* Estilo inputs focus */
+.mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: #1976d2 !important;
+}
+
+/* Checkbox moderno */
+mat-checkbox .mat-checkbox-frame {
+  border-color: #1976d2;
+}
+mat-checkbox.mat-accent .mat-checkbox-checked .mat-checkbox-background {
+  background-color: #1976d2 !important;
+}
+
+/* Upload y preview */
+.image-upload {
+  margin: 24px 0;
+}
+.image-upload label {
+  font-weight: 600;
+  color: #555;
+}
+.preview-image img {
+  display: block;
+  margin: 12px auto;
+  max-width: 200px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Botones con efecto hover */
+button.mat-raised-button {
+  margin-right: 12px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+button.mat-raised-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+button.mat-button {
+  color: #1976d2;
+}
