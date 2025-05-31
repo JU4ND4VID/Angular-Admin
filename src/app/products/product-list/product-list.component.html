@@ -1,94 +1,150 @@
-<h1>Listado de Productos</h1>
+<!-- 1. Título centrado -->
+<h1 class="title">Listado de Productos</h1>
 
-<button mat-stroked-button color="primary" (click)="add()">Nuevo Producto</button>
+<!-- 2. Contenedor “header”: dentro están el botón Nuevo Producto a la izquierda y el filtro a la derecha -->
+<div class="header-container">
+  <!-- 2a. Botón “Nuevo Producto” -->
+  <div class="add-button-container">
+    <button mat-stroked-button color="primary" (click)="add()">
+      <mat-icon>add</mat-icon>
+      Nuevo Producto
+    </button>
+  </div>
 
-<table mat-table [dataSource]="products" class="mat-elevation-z8" style="width: 100%; margin-top: 10px;">
+  <!-- 2b. Filtro de búsqueda (input + botón Limpiar) -->
+  <div class="filter-container">
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Buscar por ID</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="ID"
+        [(ngModel)]="searchId"
+        (ngModelChange)="applyFilter()"
+      />
+    </mat-form-field>
+    <button
+      mat-flat-button
+      color="primary"
+      class="clear-button"
+      (click)="clearFilter()"
+    >
+      Limpiar
+    </button>
+  </div>
+</div>
 
-  <!-- ID -->
+<!-- 3. Tabla de Material con TODAS las columnas -->
+<table mat-table [dataSource]="displayedProducts" class="mat-elevation-z8">
+
+  <!-- Columna: ID -->
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> ID </th>
     <td mat-cell *matCellDef="let p"> {{ p.id }} </td>
   </ng-container>
 
-  <!-- Descripción -->
+  <!-- Columna: Descripción -->
   <ng-container matColumnDef="descripcion">
     <th mat-header-cell *matHeaderCellDef> Descripción </th>
     <td mat-cell *matCellDef="let p"> {{ p.descripcion }} </td>
   </ng-container>
 
-  <!-- Costo Compra -->
+  <!-- Columna: Costo Compra (formateado como moneda) -->
   <ng-container matColumnDef="costoCompra">
     <th mat-header-cell *matHeaderCellDef> Costo Compra </th>
-    <td mat-cell *matCellDef="let p"> {{ p.costoCompra | currency }} </td>
+    <td mat-cell *matCellDef="let p">
+      {{ p.costoCompra | currency:'USD':'symbol':'1.2-2' }}
+    </td>
   </ng-container>
 
-  <!-- Estado -->
+  <!-- Columna: Estado -->
   <ng-container matColumnDef="estado">
     <th mat-header-cell *matHeaderCellDef> Estado </th>
-    <td mat-cell *matCellDef="let p"> {{ p.estado === 1 ? 'Activo' : 'Inactivo' }} </td>
+    <td mat-cell *matCellDef="let p">
+      <span [ngClass]="p.estado === 1 ? 'status-active' : 'status-inactive'">
+        {{ p.estado === 1 ? 'Activo' : 'Inactivo' }}
+      </span>
+    </td>
   </ng-container>
 
-  <!-- Existencia -->
+  <!-- Columna: Existencia -->
   <ng-container matColumnDef="existencia">
     <th mat-header-cell *matHeaderCellDef> Existencia </th>
     <td mat-cell *matCellDef="let p"> {{ p.existencia }} </td>
   </ng-container>
 
-  <!-- Foto Producto -->
+  <!-- Columna: Foto Producto (si existe) -->
   <ng-container matColumnDef="fotoProducto">
     <th mat-header-cell *matHeaderCellDef> Foto </th>
     <td mat-cell *matCellDef="let p">
-      <img *ngIf="p.fotoProducto" [src]="p.fotoProducto" alt="Foto producto" width="50" />
+      <ng-container *ngIf="p.fotoProducto; else noPhoto">
+        <img [src]="p.fotoProducto"
+             alt="Foto producto"
+             class="product-photo" />
+      </ng-container>
+      <ng-template #noPhoto>
+        <span class="no-photo">-</span>
+      </ng-template>
     </td>
   </ng-container>
 
-  <!-- ID Categoría -->
+  <!-- Columna: ID Categoría -->
   <ng-container matColumnDef="idCategoria">
     <th mat-header-cell *matHeaderCellDef> Categoría </th>
     <td mat-cell *matCellDef="let p"> {{ p.idCategoria }} </td>
   </ng-container>
 
-  <!-- Precio Venta Actual -->
+  <!-- Columna: Precio Venta Actual -->
   <ng-container matColumnDef="precioVentaActual">
     <th mat-header-cell *matHeaderCellDef> Precio Venta Actual </th>
-    <td mat-cell *matCellDef="let p"> {{ p.precioVentaActual | currency }} </td>
+    <td mat-cell *matCellDef="let p">
+      {{ p.precioVentaActual | currency:'USD':'symbol':'1.2-2' }}
+    </td>
   </ng-container>
 
-  <!-- Precio Venta Anterior -->
+  <!-- Columna: Precio Venta Anterior -->
   <ng-container matColumnDef="precioVentaAnterior">
     <th mat-header-cell *matHeaderCellDef> Precio Venta Anterior </th>
-    <td mat-cell *matCellDef="let p"> {{ p.precioVentaAnterior | currency }} </td>
+    <td mat-cell *matCellDef="let p">
+      {{ p.precioVentaAnterior | currency:'USD':'symbol':'1.2-2' }}
+    </td>
   </ng-container>
 
-  <!-- Referencia -->
+  <!-- Columna: Referencia -->
   <ng-container matColumnDef="referencia">
     <th mat-header-cell *matHeaderCellDef> Referencia </th>
     <td mat-cell *matCellDef="let p"> {{ p.referencia }} </td>
   </ng-container>
 
-  <!-- Stock Máximo -->
+  <!-- Columna: Stock Máximo -->
   <ng-container matColumnDef="stockMaximo">
     <th mat-header-cell *matHeaderCellDef> Stock Máximo </th>
     <td mat-cell *matCellDef="let p"> {{ p.stockMaximo }} </td>
   </ng-container>
 
-  <!-- Tiene IVA -->
+  <!-- Columna: Tiene IVA -->
   <ng-container matColumnDef="tieneIva">
     <th mat-header-cell *matHeaderCellDef> Tiene IVA </th>
-    <td mat-cell *matCellDef="let p"> {{ p.tieneIva === 1 ? 'Sí' : 'No' }} </td>
-  </ng-container>
-
-  <!-- Acciones -->
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef> Acciones </th>
     <td mat-cell *matCellDef="let p">
-      <button mat-button color="primary" (click)="edit(p.id)">Editar</button>
-      <button mat-button color="warn" (click)="remove(p.id)">Eliminar</button>
+      {{ p.tieneIva === 1 ? 'Sí' : 'No' }}
     </td>
   </ng-container>
 
-  <!-- Definición de filas -->
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <!-- Columna: Acciones (Editar / Eliminar) -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Acciones </th>
+    <td mat-cell *matCellDef="let p">
+      <button mat-icon-button color="primary" (click)="edit(p.id)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="remove(p.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
 
+  <!-- Fila de encabezado -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <!-- Fila de datos -->
+  <tr mat-row        *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>

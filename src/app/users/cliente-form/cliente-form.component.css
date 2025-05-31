@@ -1,63 +1,59 @@
-/* Fondo degradado y centrado */
-:host {
-  display: block;
-  padding: 40px 20px;
-  background: linear-gradient(135deg, #f3f6fb 0%, #ffffff 100%);
-  min-height: 100vh;
-  box-sizing: border-box;
+/* Contenedor del formulario */
+.form-card {
+  max-width: 900px;
+  margin: 24px auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
-/* Tarjeta del formulario */
-form {
-  background: #fff;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 32px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-}
-
-/* Título elegante */
-h2 {
-  text-align: center;
+/* Título del formulario */
+mat-card-title {
   font-family: 'Roboto', sans-serif;
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: #1976d2;
-  margin-bottom: 24px;
-  position: relative;
-}
-h2::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 4px;
-  background: #1976d2;
-  margin: 8px auto 0;
-  border-radius: 2px;
 }
 
-/* Alineación de campos */
-.full-width {
-  width: 100%;
-}
-mat-form-field {
-  margin-bottom: 20px;
+/* Filas del formulario */
+.row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
-/* Resaltar focus en inputs */
+/* Campos dentro de cada fila */
+.form-field {
+  flex: 1;
+}
+
+/* Botones alineados a la derecha */
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.button-row mat-icon {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+/* Resaltar enfoque en inputs */
 .mat-form-field.mat-focused .mat-form-field-ripple {
   background-color: #1976d2 !important;
 }
 
-/* Botones con efecto hover */
-button.mat-raised-button {
-  margin-right: 12px;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-button.mat-raised-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-}
-button.mat-button {
-  color: #1976d2;
+/* Responsive */
+@media (max-width: 900px) {
+  .row {
+    flex-direction: column;
+  }
+  .form-field {
+    width: 100%;
+  }
+  .button-row {
+    justify-content: center;
+  }
 }

@@ -1,95 +1,173 @@
-/* Fondo y padding */
+/* src/app/products/product-list/product-list.component.css */
+
+/* ------------------------------------------- */
+/* 1. Estilos previos (título, tabla, etc.)    */
+/* ------------------------------------------- */
 :host {
   display: block;
-  background: #f5f7fa;
-  padding: 40px 20px;
+  padding: 24px 16px;
+  background: #f9fbfc;
   min-height: 100vh;
   box-sizing: border-box;
 }
 
-/* Título con estilo */
-h1 {
+.title {
+  width: 100%;
+  display: block;
   text-align: center;
-  font-family: 'Roboto', sans-serif;
-  font-size: 2.2rem;
+  margin: 0 auto 24px;
   color: #1976d2;
-  margin-bottom: 16px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2rem;
   position: relative;
 }
-h1::after {
+.title::after {
   content: '';
   display: block;
-  width: 80px;
-  height: 4px;
-  background: #1976d2;
-  margin: 8px auto 0;
+  height: 3px;
+  width: 60px;
+  background-color: #1976d2;
+  margin: 4px auto 0;
   border-radius: 2px;
 }
 
-/* Contenedor tabla tipo tarjeta */
+/* ------------------------------------------- */
+/* 2. Contenedor “header” para botón + filtro  */
+/* ------------------------------------------- */
+.header-container {
+  display: flex;
+  justify-content: space-between; /* Botón a la izquierda, filtro a la derecha */
+  align-items: center;
+  margin-bottom: 16px;             /* Separación con la tabla */
+}
+
+/* ------------------------------------------- */
+/* 3. Botón “Nuevo Producto” (ya existente)    */
+/* ------------------------------------------- */
+.add-button-container {
+  /* 
+    Por defecto, con flex-start se queda a la izquierda. 
+    Si deseas ajustar margen, puedes hacerlo aquí. 
+  */
+}
+.add-button-container button {
+  font-weight: 600;
+}
+.add-button-container mat-icon {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+/* ------------------------------------------- */
+/* 4. Filtro (input + botón Limpiar)           */
+/* ------------------------------------------- */
+.filter-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.filter-field {
+  width: 160px;  /* Ancho fijo para el input */
+}
+/* Reducir altura total del mat-form-field */
+.filter-field .mat-form-field-flex {
+  height: 36px;
+}
+.filter-field .mat-form-field-infix {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.filter-field input.mat-input-element {
+  height: 36px;
+  font-size: 0.9rem;
+}
+/* Botón “Limpiar” compacto */
+.clear-button {
+  height: 36px;
+  min-width: 72px;
+  font-size: 0.9rem;
+  line-height: 36px;
+}
+
+/* ------------------------------------------- */
+/* 5. Estilos de la tabla (idénticos a antes)   */
+/* ------------------------------------------- */
 table {
   width: 100%;
-  max-width: 1000px;
-  margin: 24px auto;
+  max-width: 1200px;
+  margin: 0 auto;
   background: #fff;
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Encabezados suaves */
 th.mat-header-cell {
   background-color: #1976d2;
-  color: #fff;
+  color: white;
   font-weight: 600;
-  padding: 16px;
+  padding: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
-/* Filas alternas y hover */
+td.mat-cell {
+  padding: 12px;
+  color: #333;
+  vertical-align: middle;
+}
+
 tr.mat-row:nth-child(even) td.mat-cell {
-  background: #f9f9f9;
+  background: #f5f7f9;
 }
 tr.mat-row:hover td.mat-cell {
-  background: #e3f2fd;
+  background: #e1e7ed;
 }
 
-/* Celdas */
-td.mat-cell {
-  padding: 16px;
-  vertical-align: middle;
-  color: #333;
-}
-
-/* Imágenes pequeñas redondeadas */
-img {
-  border-radius: 4px;
-  max-width: 60px;
-  max-height: 60px;
-  object-fit: cover;
-}
-
-/* Botón “Nuevo” destacado */
-button.mat-stroked-button {
-  display: block;
-  margin: 0 auto 16px;
-  border-color: #1976d2;
-  color: #1976d2;
+.status-active {
+  color: #2e7d32;
   font-weight: 600;
-  transition: background 0.15s, color 0.15s;
 }
-button.mat-stroked-button:hover {
-  background: #1976d2;
-  color: #fff;
+.status-inactive {
+  color: #c62828;
+  font-weight: 600;
 }
 
-/* Botones de acción */
-button.mat-button {
-  margin-right: 8px;
-  color: #1976d2;
-  transition: color 0.15s;
+.product-photo {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
 }
-button.mat-button:hover {
-  color: #0d47a1;
+.no-photo {
+  font-style: italic;
+  color: #888;
+}
+
+.mat-icon-button {
+  margin-left: 4px;
+}
+.mat-icon-button:hover {
+  background: rgba(25, 118, 210, 0.08);
+}
+
+/* ------------------------------------------- */
+/* 6. Responsividad mínima                     */
+/* ------------------------------------------- */
+@media (max-width: 1024px) {
+  .filter-field {
+    width: 120px;
+  }
+  .add-button-container button {
+    font-size: 0.9rem;
+  }
+  table {
+    max-width: 100%;
+  }
+  td.mat-cell {
+    font-size: 0.9rem;
+  }
+  th.mat-header-cell {
+    font-size: 0.9rem;
+  }
 }

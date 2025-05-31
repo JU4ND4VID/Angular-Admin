@@ -1,54 +1,73 @@
-<h2 *ngIf="!isEdit">Nuevo Usuario</h2>
-<h2 *ngIf="isEdit">Editar Usuario</h2>
+<mat-card class="form-card">
+  <mat-card-header>
+    <mat-card-title>
+      {{ isEdit ? 'Editar Usuario' : 'Nuevo Usuario' }}
+    </mat-card-title>
+  </mat-card-header>
 
-<form [formGroup]="form" (ngSubmit)="save()" class="full-width">
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <!-- Fila 1: Nombre | Correo -->
+      <div class="row">
+        <!-- Nombre -->
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Nombre *</mat-label>
+          <input matInput formControlName="nombreCliente" />
+          <mat-error *ngIf="nombre?.hasError('required')">El nombre es obligatorio</mat-error>
+          <mat-error *ngIf="nombre?.hasError('minlength')">Mínimo 3 caracteres</mat-error>
+          <mat-error *ngIf="nombre?.hasError('maxlength')">Máximo 100 caracteres</mat-error>
+        </mat-form-field>
 
-  <!-- Nombre -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Nombre*</mat-label>
-    <input matInput formControlName="nombreCliente" />
-    <mat-error *ngIf="nombre.hasError('required')">El nombre es obligatorio</mat-error>
-    <mat-error *ngIf="nombre.hasError('minlength')">Al menos 3 caracteres</mat-error>
-    <mat-error *ngIf="nombre.hasError('maxlength')">Máximo 100 caracteres</mat-error>
-  </mat-form-field>
+        <!-- Correo -->
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Correo electrónico *</mat-label>
+          <input matInput formControlName="correoCliente" type="email" />
+          <mat-error *ngIf="correo?.hasError('required')">El correo es obligatorio</mat-error>
+          <mat-error *ngIf="correo?.hasError('email')">Correo inválido</mat-error>
+        </mat-form-field>
+      </div>
 
-  <!-- Correo -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Correo electrónico*</mat-label>
-    <input matInput formControlName="correoCliente" type="email" />
-    <mat-error *ngIf="correo.hasError('required')">El correo es obligatorio</mat-error>
-    <mat-error *ngIf="correo.hasError('email')">Correo inválido</mat-error>
-  </mat-form-field>
+      <!-- Fila 2: Dirección | Teléfono -->
+      <div class="row">
+        <!-- Dirección -->
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Dirección *</mat-label>
+          <input matInput formControlName="direccionCliente" />
+          <mat-error *ngIf="direccion?.hasError('required')">La dirección es obligatoria</mat-error>
+          <mat-error *ngIf="direccion?.hasError('minlength')">Mínimo 5 caracteres</mat-error>
+          <mat-error *ngIf="direccion?.hasError('maxlength')">Máximo 200 caracteres</mat-error>
+        </mat-form-field>
 
-  <!-- Dirección -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Dirección*</mat-label>
-    <input matInput formControlName="direccionCliente" />
-    <mat-error *ngIf="direccion.hasError('required')">La dirección es obligatoria</mat-error>
-    <mat-error *ngIf="direccion.hasError('minlength')">Al menos 5 caracteres</mat-error>
-    <mat-error *ngIf="direccion.hasError('maxlength')">Máximo 200 caracteres</mat-error>
-  </mat-form-field>
+        <!-- Teléfono -->
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Teléfono *</mat-label>
+          <input matInput formControlName="telefono" type="tel" />
+          <mat-error *ngIf="telefono?.hasError('required')">El teléfono es obligatorio</mat-error>
+          <mat-error *ngIf="telefono?.hasError('pattern')">Debe tener entre 7 y 15 dígitos</mat-error>
+        </mat-form-field>
+      </div>
 
-  <!-- Teléfono -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Teléfono*</mat-label>
-    <input matInput formControlName="telefono" type="tel" />
-    <mat-error *ngIf="telefono.hasError('required')">El teléfono es obligatorio</mat-error>
-    <mat-error *ngIf="telefono.hasError('pattern')">Debe tener de 7 a 15 dígitos numéricos</mat-error>
-  </mat-form-field>
+      <!-- Fila 3: Estado -->
+      <div class="row">
+        <!-- Estado -->
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Estado *</mat-label>
+          <mat-select formControlName="estado">
+            <mat-option [value]="1">Activo</mat-option>
+            <mat-option [value]="0">Inactivo</mat-option>
+          </mat-select>
+          <mat-error *ngIf="estadoCtrl?.hasError('required')">El estado es obligatorio</mat-error>
+        </mat-form-field>
+      </div>
 
-  <!-- Estado -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Estado (1=Activo,0=Inactivo)*</mat-label>
-    <input matInput formControlName="estado" type="number" />
-    <mat-error *ngIf="estadoCtrl.hasError('required')">El estado es obligatorio</mat-error>
-    <mat-error *ngIf="estadoCtrl.hasError('pattern')">Sólo 0 o 1</mat-error>
-  </mat-form-field>
-
-  <div style="margin-top: 24px;">
-    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-      Guardar
-    </button>
-    <button mat-button type="button" (click)="cancel()">Cancelar</button>
-  </div>
-</form>
+      <!-- Botones -->
+      <div class="button-row">
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+          <mat-icon>save</mat-icon>
+          Guardar
+        </button>
+        <button mat-button type="button" (click)="cancel()">Cancelar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

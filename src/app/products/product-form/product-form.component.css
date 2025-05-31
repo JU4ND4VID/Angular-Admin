@@ -1,87 +1,114 @@
-/* Fondo general y centrado */
-:host {
-  display: block;
-  padding: 40px 20px;
-  background: linear-gradient(135deg, #ece9e6 0%, #ffffff 100%);
-  min-height: 100vh;
-  box-sizing: border-box;
-}
-
-/* Contenedor tipo tarjeta */
-form {
-  background: #fff;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 32px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-}
-
-/* Título decorativo */
-h2 {
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-  font-size: 2rem;
-  margin-bottom: 24px;
-  color: #1976d2;
-  position: relative;
-}
-h2::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 4px;
-  background: #1976d2;
-  margin: 8px auto 0;
-  border-radius: 2px;
-}
-
-/* Espaciado y anchura full */
-.full-width {
-  width: 100%;
-}
-mat-form-field {
-  margin-bottom: 20px;
-}
-
-/* Estilo inputs focus */
-.mat-form-field.mat-focused .mat-form-field-ripple {
-  background-color: #1976d2 !important;
-}
-
-/* Checkbox moderno */
-mat-checkbox .mat-checkbox-frame {
-  border-color: #1976d2;
-}
-mat-checkbox.mat-accent .mat-checkbox-checked .mat-checkbox-background {
-  background-color: #1976d2 !important;
-}
-
-/* Upload y preview */
-.image-upload {
-  margin: 24px 0;
-}
-.image-upload label {
-  font-weight: 600;
-  color: #555;
-}
-.preview-image img {
-  display: block;
-  margin: 12px auto;
-  max-width: 200px;
+/* ---------------------------------------------------------------------------- */
+/* 1) Contenedor “card” general (borde redondeado, sombra, centrado)             */
+/* ---------------------------------------------------------------------------- */
+.form-card {
+  max-width: 900px;                /* Ancho máximo */
+  margin: 24px auto;               /* Centrado horizontal */
+  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
-/* Botones con efecto hover */
-button.mat-raised-button {
-  margin-right: 12px;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-button.mat-raised-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-}
-button.mat-button {
+/* Estilo del título dentro del card */
+mat-card-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.6rem;
   color: #1976d2;
+}
+
+/* ---------------------------------------------------------------------------- */
+/* 2) “row” y “form-field”: dos columnas por fila                                 */
+/* ---------------------------------------------------------------------------- */
+.row {
+  display: flex;
+  gap: 16px;            /* Separación horizontal entre columnas */
+  margin-bottom: 16px;  /* Separación vertical entre filas */
+}
+
+.form-field {
+  flex: 1;              /* Cada columna ocupa mismo espacio */
+}
+
+/* Para el checkbox, ocupar el tamaño de una columna estándar */
+.checkbox-field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin-top: 8px;      /* Bajarlo un poco si lo comparas con los inputs */
+}
+
+/* ---------------------------------------------------------------------------- */
+/* 3) Fila “full-width-row”: para input file y previsualización de imagen         */
+/* ---------------------------------------------------------------------------- */
+.full-width-row {
+  display: block;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* ---------------------------------------------------------------------------- */
+/* 4) Etiqueta del input file                                                    */
+/* ---------------------------------------------------------------------------- */
+.file-label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+input[type='file'] {
+  font-size: 0.9rem;
+}
+
+/* ---------------------------------------------------------------------------- */
+/* 5) Previsualización de la imagen                                               */
+/* ---------------------------------------------------------------------------- */
+.preview-image {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 4px;
+  margin-top: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------------------------------------------------------------------------- */
+/* 6) Botones finales alineados a la derecha                                      */
+/* ---------------------------------------------------------------------------- */
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.button-row mat-icon {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: 4px; /* Pequeño espacio entre ícono y texto */
+}
+
+/* ---------------------------------------------------------------------------- */
+/* 7) Mensajes de error de Angular Material (por defecto en rojo y pequeño)       */
+/* ---------------------------------------------------------------------------- */
+/* Si deseas cambiar el tamaño o color:
+   .mat-error {
+     font-size: 0.8rem;
+   }
+*/
+
+/* ---------------------------------------------------------------------------- */
+/* 8) Responsividad mínima                                                         */
+/* ---------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .row {
+    flex-direction: column;  /* Cada “columna” ocupa toda la fila */
+  }
+  .form-field,
+  .checkbox-field {
+    flex: unset;
+    width: 100%;
+  }
+  .button-row {
+    justify-content: center; /* Centramos botones en móvil */
+  }
 }

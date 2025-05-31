@@ -7,10 +7,20 @@ export const routes: Routes = [
       import('./products/products.module').then(m => m.ProductsModule)
   },
   {
-    path: 'users',                   // ← esta línea
+    path: 'users',
     loadChildren: () =>
       import('./users/users.module').then(m => m.UsersModule)
   },
-  { path: '',   redirectTo: 'products', pathMatch: 'full' },
+  {
+    path: 'ventas',            // ← aquí
+    loadChildren: () =>
+      import('./ventas/ventas.module').then(m => m.VentasModule)
+  },
+  {
+  path: 'transacciones',
+  loadChildren: () => import('./transacciones/transacciones.module').then(m => m.TransaccionesModule)
+},
+
+  { path: '', redirectTo: 'products', pathMatch: 'full' },
   { path: '**', redirectTo: 'products' }
 ];

@@ -1,13 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule }      from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
-import { MatFormFieldModule }from '@angular/material/form-field';
-import { MatInputModule }    from '@angular/material/input';
-import { MatButtonModule }   from '@angular/material/button';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from '../cliente.service';
-import { Cliente }        from '../cliente.model';
+import { Cliente } from '../cliente.model';
 
 @Component({
   selector: 'app-cliente-form',
@@ -17,10 +27,14 @@ import { Cliente }        from '../cliente.model';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule,
+    MatSelectModule,
+    MatIconModule,
+    MatOptionModule,
   ],
   templateUrl: './cliente-form.component.html',
-  styleUrls: ['./cliente-form.component.css']
+  styleUrls: ['./cliente-form.component.css'],
 })
 export class ClienteFormComponent implements OnInit {
   form!: FormGroup;
@@ -39,22 +53,15 @@ export class ClienteFormComponent implements OnInit {
       correoCliente: ['', [Validators.required, Validators.email]],
       direccionCliente: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
       telefono: ['', [Validators.required, Validators.pattern(/^[0-9]{7,15}$/)]],
-      estado: [1, [Validators.required, Validators.pattern(/^[01]$/)]]
+      estado: [1, [Validators.required]],
     });
 
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
       this.isEdit = true;
-      const id = Number(idParam);
-      const c = this.svc.getById(id);
-      if (c) {
-        this.form.patchValue({
-          nombreCliente: c.nombreCliente,
-          correoCliente: c.correoCliente,
-          direccionCliente: c.direccionCliente,
-          telefono: c.telefono,
-          estado: c.estado
-        });
+      const cliente = this.svc.getById(+idParam);
+      if (cliente) {
+        this.form.patchValue(cliente);
       }
     }
   }
@@ -68,20 +75,16 @@ export class ClienteFormComponent implements OnInit {
     const values = this.form.value;
     const cliente: Cliente = {
       id: this.isEdit
-          ? Number(this.route.snapshot.paramMap.get('id'))
-          : Math.floor(Math.random() * 100000),
+        ? +this.route.snapshot.paramMap.get('id')!
+        : Math.floor(Math.random() * 100_000),
       nombreCliente: values.nombreCliente,
       correoCliente: values.correoCliente,
       direccionCliente: values.direccionCliente,
       telefono: values.telefono,
-      estado: Number(values.estado)
+      estado: values.estado,
     };
 
-    if (this.isEdit) {
-      this.svc.update(cliente);
-    } else {
-      this.svc.create(cliente);
-    }
+    this.isEdit ? this.svc.update(cliente) : this.svc.create(cliente);
     this.router.navigate(['/users']);
   }
 
@@ -89,10 +92,10 @@ export class ClienteFormComponent implements OnInit {
     this.router.navigate(['/users']);
   }
 
-  /** Helpers para template */
-  get nombre() { return this.form.get('nombreCliente')!; }
-  get correo() { return this.form.get('correoCliente')!; }
-  get direccion() { return this.form.get('direccionCliente')!; }
-  get telefono() { return this.form.get('telefono')!; }
-  get estadoCtrl() { return this.form.get('estado')!; }
+  // Getters para el template
+  get nombre()    { return this.form.get('nombreCliente'); }
+  get correo()    { return this.form.get('correoCliente'); }
+  get direccion() { return this.form.get('direccionCliente'); }
+  get telefono()  { return this.form.get('telefono'); }
+  get estadoCtrl(){ return this.form.get('estado'); }
 }
