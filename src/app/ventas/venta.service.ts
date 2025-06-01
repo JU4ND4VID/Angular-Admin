@@ -1,45 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Venta }      from './venta.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Venta } from './venta.model';
 
-/**
- * Servicio de Ventas (mock data)
- */
 @Injectable({
   providedIn: 'root'
 })
 export class VentaService {
-  private ventas: Venta[] = [
-    {
-      id: 1,
-      estado: 1,
-      fechaVenta: '2025-05-01',
-      idCliente: 1,
-      valorDscto: 10,
-      valorIva: 5,
-      valorVenta: 100
-    },
-    {
-      id: 2,
-      estado: 0,
-      fechaVenta: '2025-05-02',
-      idCliente: 2,
-      valorDscto: 0,
-      valorIva: 8,
-      valorVenta: 200
-    },
-    {
-      id: 3,
-      estado: 1,
-      fechaVenta: '2025-05-03',
-      idCliente: 1,
-      valorDscto: 15,
-      valorIva: 12,
-      valorVenta: 150
-    }
-  ];
+  private baseUrl = 'http://localhost:8181/SPRINGWEB1/venta';
+;
 
-  /** Devuelve todas las ventas */
-  getAll(): Venta[] {
-    return [...this.ventas];
+  constructor(private http: HttpClient) {}
+
+  listarVentas(): Observable<Venta[]> {
+    return this.http.get<Venta[]>(`${this.baseUrl}/getAll`);
+  }
+
+  guardarVenta(venta: Venta): Observable<Venta> {
+    return this.http.post<Venta>(`${this.baseUrl}/saveVenta`, venta);
+  }
+
+  obtenerPorId(id: number): Observable<Venta> {
+    return this.http.get<Venta>(`${this.baseUrl}/findRecord/${id}`);
+  }
+
+  eliminarVenta(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/deleteVenta/${id}`);
   }
 }

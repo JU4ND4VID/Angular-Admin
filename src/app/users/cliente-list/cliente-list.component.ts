@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule }      from '@angular/common';
-import { FormsModule }       from '@angular/forms';
-import { MatTableModule }    from '@angular/material/table';
-import { MatFormFieldModule} from '@angular/material/form-field';
-import { MatInputModule }    from '@angular/material/input';
-import { MatButtonModule }   from '@angular/material/button';
-import { MatIconModule }     from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 import { ClienteService } from '../cliente.service';
-import { Cliente }        from '../cliente.model';
-import { Router }         from '@angular/router';
+import { Cliente } from '../cliente.model';
 
 @Component({
   selector: 'app-cliente-list',
@@ -52,9 +52,12 @@ export class ClienteListComponent implements OnInit {
     private router: Router
   ) {}
 
+  /** Carga inicial de datos */
   ngOnInit(): void {
-    this.clientes = this.svc.getAll();
-    this.displayedClientes = [...this.clientes];
+    this.svc.listarClientes().subscribe((data) => {
+      this.clientes = data;
+      this.displayedClientes = [...data];
+    });
   }
 
   /** Aplica filtro por ID exacto */
@@ -84,8 +87,11 @@ export class ClienteListComponent implements OnInit {
 
   /** Elimina cliente y actualiza la tabla */
   remove(id: number): void {
-    this.svc.delete(id);
-    this.clientes = this.svc.getAll();
-    this.applyFilter();
+    this.svc.eliminarCliente(id).subscribe(() => {
+      this.svc.listarClientes().subscribe((data) => {
+        this.clientes = data;
+        this.applyFilter();
+      });
+    });
   }
 }

@@ -39,6 +39,7 @@ import { Cliente } from '../cliente.model';
 export class ClienteFormComponent implements OnInit {
   form!: FormGroup;
   isEdit = false;
+  clienteId: number | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -49,6 +50,7 @@ export class ClienteFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
+      id: [null], // lo incluyes por si estás editando
       nombreCliente: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       correoCliente: ['', [Validators.required, Validators.email]],
       direccionCliente: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
@@ -59,10 +61,10 @@ export class ClienteFormComponent implements OnInit {
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
       this.isEdit = true;
-      const cliente = this.svc.getById(+idParam);
-      if (cliente) {
+      this.clienteId = +idParam;
+      this.svc.obtenerPorId(this.clienteId).subscribe((cliente) => {
         this.form.patchValue(cliente);
-      }
+      });
     }
   }
 
@@ -72,27 +74,22 @@ export class ClienteFormComponent implements OnInit {
       return;
     }
 
-    const values = this.form.value;
-    const cliente: Cliente = {
-      id: this.isEdit
-        ? +this.route.snapshot.paramMap.get('id')!
-        : Math.floor(Math.random() * 100_000),
-      nombreCliente: values.nombreCliente,
-      correoCliente: values.correoCliente,
-      direccionCliente: values.direccionCliente,
-      telefono: values.telefono,
-      estado: values.estado,
-    };
+    const cliente: Cliente = this.form.value;
 
-    this.isEdit ? this.svc.update(cliente) : this.svc.create(cliente);
-    this.router.navigate(['/users']);
+    const op = this.isEdit
+      ? this.svc.actualizar(cliente)
+      : this.svc.crear(cliente);
+
+    op.subscribe(() => {
+      this.router.navigate(['/users']);
+    });
   }
 
   cancel(): void {
     this.router.navigate(['/users']);
   }
 
-  // Getters para el template
+  // Getters para validación en el HTML
   get nombre()    { return this.form.get('nombreCliente'); }
   get correo()    { return this.form.get('correoCliente'); }
   get direccion() { return this.form.get('direccionCliente'); }

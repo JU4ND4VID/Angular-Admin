@@ -1,4 +1,6 @@
-/* Contenedor del formulario */
+/* ---------------------------------------------------------------------------- */
+/* 1) Contenedor “card” general                                                  */
+/* ---------------------------------------------------------------------------- */
 .form-card {
   max-width: 900px;
   margin: 24px auto;
@@ -12,26 +14,40 @@ mat-card-title {
   font-family: 'Roboto', sans-serif;
   font-size: 1.6rem;
   color: #1976d2;
+  margin-bottom: 8px;
 }
 
-/* Filas del formulario */
+/* ---------------------------------------------------------------------------- */
+/* 2) Filas con 2 columnas                                                       */
+/* ---------------------------------------------------------------------------- */
 .row {
   display: flex;
   gap: 16px;
   margin-bottom: 16px;
 }
 
-/* Campos dentro de cada fila */
 .form-field {
   flex: 1;
 }
 
-/* Botones alineados a la derecha */
+/* ---------------------------------------------------------------------------- */
+/* 3) Checkbox como una columna                                                  */
+/* ---------------------------------------------------------------------------- */
+.checkbox-field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+/* ---------------------------------------------------------------------------- */
+/* 4) Botones alineados a la derecha                                             */
+/* ---------------------------------------------------------------------------- */
 .button-row {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 24px;
+  margin-top: 16px;
 }
 
 .button-row mat-icon {
@@ -40,18 +56,17 @@ mat-card-title {
   margin-right: 4px;
 }
 
-/* Resaltar enfoque en inputs */
-.mat-form-field.mat-focused .mat-form-field-ripple {
-  background-color: #1976d2 !important;
-}
-
-/* Responsive */
+/* ---------------------------------------------------------------------------- */
+/* 5) Responsive para pantallas pequeñas                                         */
+/* ---------------------------------------------------------------------------- */
 @media (max-width: 900px) {
   .row {
     flex-direction: column;
   }
-  .form-field {
+  .form-field,
+  .checkbox-field {
     width: 100%;
+    flex: unset;
   }
   .button-row {
     justify-content: center;

@@ -26,22 +26,36 @@ import { Venta } from '../venta.model';
 export class VentaListComponent implements OnInit {
   ventas: Venta[] = [];
   displayedVentas: Venta[] = [];
-  displayedColumns = ['id', 'fechaVenta', 'idCliente', 'valorDscto', 'valorIva', 'valorVenta', 'estado'];
+
+  displayedColumns: string[] = [
+  'id',
+  'fechaVenta',
+  'idCliente',
+  'valorDscto',
+  'valorIva',
+  'valorVenta',
+  'estado'
+];
+
 
   searchId: number | null = null;
 
-  constructor(private svc: VentaService) {}
+  constructor(private ventaService: VentaService) {}
 
   ngOnInit(): void {
-    this.ventas = this.svc.getAll();
-    this.displayedVentas = [...this.ventas];
+    this.ventaService.listarVentas().subscribe((data) => {
+      this.ventas = data;
+      this.displayedVentas = [...data];
+    });
   }
 
   applyFilter(): void {
     if (this.searchId === null || isNaN(this.searchId)) {
       this.displayedVentas = [...this.ventas];
     } else {
-      this.displayedVentas = this.ventas.filter(v => v.id === this.searchId);
+      this.displayedVentas = this.ventas.filter(
+        v => v.id === this.searchId
+      );
     }
   }
 
