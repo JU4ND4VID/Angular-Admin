@@ -1,65 +1,37 @@
-// src/app/products/product.service.ts
-
 import { Injectable } from '@angular/core';
-import { Product }    from './product.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Product } from './product.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private products: Product[] = [
-    {
-      id: 1,
-      descripcion: 'Producto A',
-      costoCompra: 5050,       // 50.50 × 100 (guardaremos como entero de centavos para simplificar)
-      estado: 1,
-      existencia: 10,
-      fotoProducto: '',
-      idCategoria: 1,
-      precioVentaActual: 10000,   // 100.00 × 100
-      precioVentaAnterior: 9000,  // 90.00 × 100
-      referencia: 'REF001',
-      stockMaximo: 100,
-      tieneIva: 1
-    },
-    {
-      id: 76531,
-      descripcion: 'zzz',
-      costoCompra: 100,       // 1.00 × 100
-      estado: 1,
-      existencia: 5,
-      fotoProducto: '',
-      idCategoria: 2,
-      precioVentaActual: 7500,    // 75.00 × 100
-      precioVentaAnterior: 7000,  // 70.00 × 100
-      referencia: 'REFXYZ',
-      stockMaximo: 50,
-      tieneIva: 0
-    }
-    // …otros productos…
-  ];
+  private baseUrl = 'http://localhost:8181/SPRINGWEB1/producto';
 
-  getAll(): Product[] {
-    // Devolvemos copia para no mutar el array original
-    return this.products.map(p => ({ ...p }));
+  constructor(private http: HttpClient) {}
+
+  getAll(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/getAll`);
   }
 
-  getById(id: number): Product | undefined {
-    return this.products.find(p => p.id === id);
+  getById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.baseUrl}/findRecord/${id}`);
   }
 
-  create(p: Product): void {
-    this.products.push({ ...p });
+  create(product: Product): Observable<Product> {
+    return this.http.post<Product>(`${this.baseUrl}/saveProducto`, product);
   }
 
-  update(p: Product): void {
-    const idx = this.products.findIndex(x => x.id === p.id);
-    if (idx > -1) {
-      this.products[idx] = { ...p };
-    }
+  createRaw(formData: FormData): Observable<any> {
+    return this.http.post(`${this.baseUrl}/saveProducto`, formData);
   }
 
-  delete(id: number): void {
-    this.products = this.products.filter(x => x.id !== id);
+  update(product: Product): Observable<Product> {
+    return this.http.post<Product>(`${this.baseUrl}/saveProducto`, product);
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/deleteProducto/${id}`);
   }
 }
