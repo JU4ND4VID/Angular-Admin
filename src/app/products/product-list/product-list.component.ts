@@ -70,11 +70,11 @@ export class ProductListComponent implements OnInit {
   }
 
   add(): void {
-    this.router.navigate(['/products/new']);
+    this.router.navigate(['admin/products/new']);
   }
 
   edit(id: number): void {
-    this.router.navigate(['/products/edit', id]);
+    this.router.navigate(['admin/products/edit', id]);
   }
 
   remove(id: number): void {

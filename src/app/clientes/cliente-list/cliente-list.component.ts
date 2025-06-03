@@ -77,12 +77,12 @@ export class ClienteListComponent implements OnInit {
 
   /** Navega a creación de cliente */
   add(): void {
-    this.router.navigate(['/users/new']);
+    this.router.navigate(['admin/clientes/new']);
   }
 
   /** Navega a edición de cliente */
   edit(id: number): void {
-    this.router.navigate(['/users/edit', id]);
+    this.router.navigate(['admin/clientes/edit', id]);
   }
 
   /** Elimina cliente y actualiza la tabla */

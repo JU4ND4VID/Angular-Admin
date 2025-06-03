@@ -1,0 +1,7 @@
+<div style="max-width: 300px; margin: 0 auto; padding: 2rem;">
+  <h2>Iniciar sesión</h2>
+  <input [(ngModel)]="usuario" placeholder="Usuario" class="form-control mb-2">
+  <input [(ngModel)]="clave" type="password" placeholder="Contraseña" class="form-control mb-2">
+  <button (click)="login()" class="btn btn-primary w-100">Ingresar</button>
+  <div *ngIf="error" class="text-danger mt-2">{{ error }}</div>
+</div>

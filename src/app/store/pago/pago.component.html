@@ -1,0 +1,91 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Formulario de Pago</h2>
+
+  <form (ngSubmit)="pagar()" #form="ngForm" class="p-4 border rounded bg-light">
+    <div class="form-group mb-3">
+      <label for="identificacion">Identificación</label>
+      <input
+        type="text"
+        id="identificacion"
+        [(ngModel)]="transaccion.identificacion"
+        name="identificacion"
+        required
+        class="form-control"
+        placeholder="Ej: 1234567890"
+      />
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="numTarjeta">Número de Tarjeta</label>
+      <input
+        type="text"
+        id="numTarjeta"
+        [(ngModel)]="transaccion.numTarjeta"
+        name="numTarjeta"
+        required
+        class="form-control"
+        placeholder="Ej: 4111111111111111"
+      />
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="idBanco">Banco</label>
+      <input
+        type="text"
+        id="idBanco"
+        [(ngModel)]="transaccion.idBanco"
+        name="idBanco"
+        required
+        class="form-control"
+        placeholder="Ej: BANC001"
+      />
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="idFranquicia">Franquicia</label>
+      <input
+        type="text"
+        id="idFranquicia"
+        [(ngModel)]="transaccion.idFranquicia"
+        name="idFranquicia"
+        required
+        class="form-control"
+        placeholder="Ej: VISA, MASTERCARD"
+      />
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="idMetodoPago">Método de Pago</label>
+      <select
+        id="idMetodoPago"
+        [(ngModel)]="transaccion.idMetodoPago"
+        name="idMetodoPago"
+        required
+        class="form-select"
+      >
+        <option [ngValue]="0" disabled>Seleccione uno</option>
+        <option [ngValue]="1">Tarjeta Crédito</option>
+        <option [ngValue]="2">Tarjeta Débito</option>
+        <option [ngValue]="3">Transferencia</option>
+      </select>
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Total a Pagar</label>
+      <input
+        type="text"
+        class="form-control"
+        [value]="'$' + total.toFixed(2)"
+        readonly
+      />
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-success w-100"
+      [disabled]="form.invalid"
+    >
+      Confirmar Pago
+    </button>
+  </form>
+</div>

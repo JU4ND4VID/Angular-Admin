@@ -1,49 +1,29 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Transaccion } from './transaccion.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransaccionService {
-  private transacciones: Transaccion[] = [
-    {
-      id: 1,
-      estado: 1,
-      fechaHora: '2025-05-31T10:15:00',
-      idBanco: 'BAN123',
-      idCompra: 101,
-      idFranquicia: 'VISA',
-      idMetodoPago: 2,
-      identificacion: '1234567890',
-      numTarjeta: '**** **** **** 1234',
-      valorTx: 50000
-    },
-    {
-      id: 2,
-      estado: 0,
-      fechaHora: '2025-06-01T14:00:00',
-      idBanco: 'BAN456',
-      idCompra: 102,
-      idFranquicia: 'MASTERCARD',
-      idMetodoPago: 1,
-      identificacion: '9876543210',
-      numTarjeta: '**** **** **** 5678',
-      valorTx: 120000
-    }
-  ];
+  private baseUrl = 'http://localhost:8181/SPRINGWEB1/transaccion';
 
-  /** Devuelve todas las transacciones */
-  getAll(): Transaccion[] {
-    return [...this.transacciones];
+  constructor(private http: HttpClient) {}
+
+  listarTransacciones(): Observable<Transaccion[]> {
+    return this.http.get<Transaccion[]>(`${this.baseUrl}/getAll`);
   }
 
-  /** (Opcional) Busca una transacción por ID */
-  getById(id: number): Transaccion | undefined {
-    return this.transacciones.find(t => t.id === id);
+  guardarTransaccion(transaccion: Transaccion): Observable<Transaccion> {
+    return this.http.post<Transaccion>(`${this.baseUrl}/saveTransaccion`, transaccion);
   }
 
-  /** (Opcional) Elimina por ID */
-  delete(id: number): void {
-    this.transacciones = this.transacciones.filter(t => t.id !== id);
+  obtenerPorId(id: number): Observable<Transaccion> {
+    return this.http.get<Transaccion>(`${this.baseUrl}/findRecord/${id}`);
+  }
+
+  eliminarTransaccion(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/deleteTransaccion/${id}`);
   }
 }

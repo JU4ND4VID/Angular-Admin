@@ -81,12 +81,12 @@ export class ClienteFormComponent implements OnInit {
       : this.svc.crear(cliente);
 
     op.subscribe(() => {
-      this.router.navigate(['/users']);
+      this.router.navigate(['/admin/clientes']);
     });
   }
 
   cancel(): void {
-    this.router.navigate(['/users']);
+    this.router.navigate(['/admin/clientes']);
   }
 
   // Getters para validación en el HTML

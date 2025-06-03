@@ -1,26 +1,27 @@
 import { Routes } from '@angular/router';
+import { LoginComponent } from './login/login.component';
+import { adminGuard } from './guards/admin.guard';
+import { clienteGuard } from './guards/cliente.guard';
 
 export const routes: Routes = [
   {
-    path: 'products',
-    loadChildren: () =>
-      import('./products/products.module').then(m => m.ProductsModule)
+    path: 'login',
+    component: LoginComponent
   },
   {
-    path: 'users',
+    path: 'admin',
+    canActivate: [adminGuard],
     loadChildren: () =>
-      import('./users/users.module').then(m => m.UsersModule)
+      import('./admin/admin.module').then(m => m.AdminModule)
   },
   {
-    path: 'ventas',            // ← aquí
-    loadChildren: () =>
-      import('./ventas/ventas.module').then(m => m.VentasModule)
-  },
-  {
-  path: 'transacciones',
-  loadChildren: () => import('./transacciones/transacciones.module').then(m => m.TransaccionesModule)
-},
+  path: 'store',
+  loadChildren: () => import('./store/store.module').then(m => m.StoreModule),
+  canActivate: [clienteGuard] // si ya usas guard
+}
+,
 
-  { path: '', redirectTo: 'products', pathMatch: 'full' },
-  { path: '**', redirectTo: 'products' }
+
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', redirectTo: 'login' }
 ];

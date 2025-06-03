@@ -78,9 +78,11 @@
     <th mat-header-cell *matHeaderCellDef> Foto </th>
     <td mat-cell *matCellDef="let p">
       <ng-container *ngIf="p.fotoProducto; else noPhoto">
-        <img [src]="p.fotoProducto"
-             alt="Foto producto"
-             class="product-photo" />
+<img [src]="'http://localhost:8181/SPRINGWEB1/producto/uploads/' + p.fotoProducto"
+     alt="foto" width="40" height="40">
+
+
+
       </ng-container>
       <ng-template #noPhoto>
         <span class="no-photo">-</span>

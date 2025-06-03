@@ -45,8 +45,10 @@ export class TransaccionListComponent implements OnInit {
   constructor(private svc: TransaccionService) {}
 
   ngOnInit(): void {
-    this.transacciones = this.svc.getAll();
-    this.displayedTransacciones = [...this.transacciones];
+    this.svc.listarTransacciones().subscribe((data) => {
+      this.transacciones = data;
+      this.displayedTransacciones = [...data];
+    });
   }
 
   applyFilter(): void {

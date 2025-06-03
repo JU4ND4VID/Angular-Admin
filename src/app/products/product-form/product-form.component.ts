@@ -101,6 +101,7 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
+
   save(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -144,13 +145,24 @@ export class ProductFormComponent implements OnInit {
       formData.append("file", this.selectedFile);
     }
 
-    this.svc.createRaw(formData).subscribe(() => {
-      this.router.navigate(['/products']);
-    });
+    this.svc.createRaw(formData).subscribe({
+  next: (resp) => {
+    console.log('Producto guardado:', resp);
+    this.router.navigate(['/admin/products']);
+
+
+  },
+  error: (err) => {
+    console.error('ERROR al guardar el producto:', err);
+    alert('Error al guardar el producto. Revisa la consola.');
+  }
+});
+
   }
 
   cancel(): void {
-    this.router.navigate(['/products']);
+    this.router.navigate(['/admin/products']);
+
   }
 
   onFileSelected(event: any): void {

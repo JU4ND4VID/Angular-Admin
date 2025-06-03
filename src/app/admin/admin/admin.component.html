@@ -1,0 +1,14 @@
+<nav style="background-color: #0d6efd; padding: 1rem; color: white; display: flex; gap: 2rem;">
+  <a routerLink="products" routerLinkActive="active" style="color: white; text-decoration: none;">Productos</a>
+  <a routerLink="clientes" routerLinkActive="active" style="color: white; text-decoration: none;">Clientes</a>
+  <a routerLink="ventas" routerLinkActive="active" style="color: white; text-decoration: none;">Ventas</a>
+  <a routerLink="transacciones" routerLinkActive="active" style="color: white; text-decoration: none;">Transacciones</a>
+
+<button (click)="cerrarSesion()" style="margin-left:auto; background-color: transparent; border: 1px solid white; color: white; padding: 4px 8px; border-radius: 4px; cursor: pointer;">
+    Cerrar sesión
+  </button>
+</nav>
+
+<div style="padding: 1rem;">
+  <router-outlet></router-outlet>
+</div>

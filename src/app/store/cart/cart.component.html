@@ -1,0 +1,24 @@
+<div style="padding: 1rem;">
+  <h2>Carrito de Compras</h2>
+
+  <div *ngIf="items.length === 0">
+    <p>No hay productos en el carrito.</p>
+  </div>
+
+  <div *ngFor="let item of items" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
+    <strong>{{ item.descripcion }}</strong> - 
+    ${{ item.precioVentaActual?.toFixed(2) }}
+  </div>
+
+  <div *ngIf="items.length > 0">
+    <p><strong>Total:</strong> ${{ total.toFixed(2) }}</p>
+
+    <button (click)="confirmarCompra()" style="margin-right: 1rem; background-color: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px;">
+      Confirmar Compra
+    </button>
+
+    <button (click)="vaciar()" style="background-color: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px;">
+      Vaciar Carrito
+    </button>
+  </div>
+</div>
